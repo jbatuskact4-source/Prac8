@@ -10,37 +10,44 @@ on:
 
 jobs:
   sonar:
+    name: SonarCloud Scan
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
 
+    steps:
+      # 1. Checkout your code
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      # 2. Setup Node.js 18
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
 
+      # 3. Setup Java 17
       - name: Setup Java 17
         uses: actions/setup-java@v3
         with:
           distribution: temurin
           java-version: '17'
 
-      - name: Install dependencies
+      # 4. Install dependencies
+      - name: Install Dependencies
         run: npm install
 
+      # 5. Run SonarCloud scan
       - name: SonarCloud Scan
-        uses: SonarSource/sonarqube-scan-action@v1.2.0
+        uses: SonarSource/sonarcloud-github-action@v2
         with:
-          args: >
-            -Dsonar.projectKey=jbatuskact4-source_Prac8
-            -Dsonar.organization=jbatuskact4-source
-            -Dsonar.sources=.
+          organization: jbatuskact4-source
+          projectKey: jbatuskact4-source_Prac8
+          projectBaseDir: .
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: https://sonarcloud.io
 
-      - name: Quality Gate
-        uses: SonarSource/sonarqube-quality-gate-action@v1.1.0
+      # 6. Check Quality Gate
+      - name: SonarCloud Quality Gate
+        uses: SonarSource/sonarcloud-quality-gate-action@v1.1.0
         timeout-minutes: 5
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
