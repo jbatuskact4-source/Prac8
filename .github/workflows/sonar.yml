@@ -1,4 +1,4 @@
-name: SonarQube Analysis
+name: SonarCloud Analysis
 
 on:
   push:
@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
+      - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Setup Node.js
@@ -18,20 +18,21 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Install Dependencies
+      - name: Install dependencies
         run: npm install
 
-      - name: SonarQube Scan
+      - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@v1.2.0
         with:
           args: >
-            -Dsonar.projectKey=sonar-node-app
+            -Dsonar.projectKey=jbatuskact4-source_Prac8
+            -Dsonar.organization=jbatuskact4-source
             -Dsonar.sources=.
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: http://172.16.42.119:9000
+          SONAR_HOST_URL: https://sonarcloud.io
 
-      - name: Quality Gate Check
+      - name: Quality Gate
         uses: SonarSource/sonarqube-quality-gate-action@v1.1.0
         timeout-minutes: 5
         env:
