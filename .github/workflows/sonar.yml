@@ -29,7 +29,7 @@ jobs:
             -Dsonar.sources=.
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: http://YOUR_SERVER_IP:9000
+          SONAR_HOST_URL: http://172.16.42.119:9000
 
       - name: Quality Gate Check
         uses: SonarSource/sonarqube-quality-gate-action@v1.1.0
